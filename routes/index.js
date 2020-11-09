@@ -3,20 +3,14 @@ var router = express.Router();
 var shops = require("../models/shop");
 var qs = require('querystring');
 var app = express();
-
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 const axios = require('axios')
 const { body,validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-
-
-var sess
 app.use(express.json());
-
 app.use(cookieParser());
 app.use(session({secret: 'shhh', resave: false, saveUninitialized: false, cookie: { secure: !true }}));
-
 app.use(router);
 
 
@@ -31,15 +25,12 @@ var shop = new shops()
         if (err) {
           res.send(err);
         } else {
-         console.log('ok')
          res.render('index', { title: 'Express','shops':result });
         }
     });}
 else{
     res.send("Please loging first.")
-}
-  console.log(shop)
-  
+}  
 });
 
 
@@ -122,7 +113,6 @@ const data = {
 }
     axios.post('https://api.line.me/oauth2/v2.1/token',qs.stringify(data),config)
     .then(function (response) {
-        sess = req.session;
         req.session.acc = response.data.access_token
         shops.find({}, function(err, result) {
         if (err) {
@@ -138,8 +128,5 @@ const data = {
         console.log(error);
         res.send(error);
   });
- 
-    //res.redirect("http://localhost:8080/#/");
-    console.log(req.query.code);
 });
 module.exports = router;

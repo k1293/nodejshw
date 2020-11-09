@@ -1,7 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var shops = require("./models/shop");
 var indexRouter = require('./routes/index');
@@ -14,7 +13,6 @@ var session = require('express-session');
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({secret: 'shhh', resave: false, saveUninitialized: false, cookie: { secure: !true }}));
-
 app.use(router);
 
 //Import the mongoose module
@@ -40,14 +38,9 @@ app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
 app.use('/', indexRouter);
-
 app.use('/users', usersRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -64,24 +57,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-// -----------
-
-//var data = [
-//  {
-//    shopname: '777',
-//    address: '777',
-//    phone: '777',
-//    owner: '777'
-//  }
-//];
-
-//shops.insertMany(data, function(err, result) {
-//  if (err) {
-//    res.send(err);
-//  } else {
-//    res.send(result);
-//  }
-//});
 
 
 module.exports = app;

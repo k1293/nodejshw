@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 axios
-  .delete('http://localhost:3000/shop/789', {
+  .post('http://localhost:3000/shop/789', {
     shopname: 'abcdefg',
     address: '12sdf3',
     phone: '293574',
