@@ -1,0 +1,26 @@
+
+extends layout
+
+block content
+
+
+  h1= title
+  p Welcome to #{title}
+
+  table
+    thead
+      th shopname          
+      th address         
+      th  phone        
+      th  owner
+    tbody    
+      each shop in shops
+        tr
+           td   (#{shop['shopname']})
+           td   (#{shop['address']})
+           td   (#{shop['phone']})
+           td   (#{shop['owner']})
+      else
+            tr There are no shops.
+  <a href="/shopc"><button type="button">create new shop</button></a>
+
